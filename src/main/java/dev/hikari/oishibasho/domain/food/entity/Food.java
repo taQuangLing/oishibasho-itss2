@@ -2,13 +2,17 @@ package dev.hikari.oishibasho.domain.food.entity;
 
 import dev.hikari.oishibasho.domain.restaurant.entity.Restaurant;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "foods")
 @Builder
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Food {
 
     @Id
@@ -30,7 +34,7 @@ public class Food {
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
-    private Restaurant restaurantId;
+    private Restaurant restaurant;
 
     @Column(name = "period_id")
     private Integer periodId;
