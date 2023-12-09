@@ -33,9 +33,9 @@ public class FoodController {
         return ResponseFactory.response(rsp);
     }
 
-    @PutMapping("/foods/{id}/change/")
+    @PutMapping("/foods/{id}/change")
     public ResponseEntity<BaseResponse> changeDishes(
-            @PathVariable(name = "id") Integer id,
+            @PathVariable("id") Integer id,
             @RequestBody DishesUpdatedRequest request
     ){
         request.setId(id);

@@ -7,4 +7,5 @@ import lombok.Data;
 @Data
 public class DishesUpdatedRequest {
     private Integer id;
+    private Object data;
 }
