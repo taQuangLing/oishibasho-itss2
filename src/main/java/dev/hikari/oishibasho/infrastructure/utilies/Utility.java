@@ -8,8 +8,42 @@ import org.springframework.data.domain.Sort;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Random;
 
 public class Utility {
+    public static Integer random(Integer a, Integer b){
+        Random random = new Random();
+
+        // Sinh số ngẫu nhiên trong phạm vi từ a đến b
+        return random.nextInt(b - a + 1) + a;
+    }
+
+    public static double haversineDistance(double lat1, double lon1, double lat2, double lon2) {
+        // Bán kính trái đất ở đơn vị km
+        double earthRadius = 6371.0;
+
+        // Chuyển đổi về radian
+        double radiansLat1 = Math.toRadians(lat1);
+        double radiansLon1 = Math.toRadians(lon1);
+        double radiansLat2 = Math.toRadians(lat2);
+        double radiansLon2 = Math.toRadians(lon2);
+
+        // Sự chênh lệch giữa các vĩ độ và kinh độ
+        double deltaLat = radiansLat2 - radiansLat1;
+        double deltaLon = radiansLon2 - radiansLon1;
+
+        // Công thức Haversine
+        double a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
+                Math.cos(radiansLat1) * Math.cos(radiansLat2) *
+                        Math.sin(deltaLon / 2) * Math.sin(deltaLon / 2);
+
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        // Khoảng cách
+        double distance = earthRadius * c;
+
+        return distance;
+    }
     public static Pageable paginationAndSorting(int page, int size, String sortBy){
         if (sortBy == null)return PageRequest.of(page, size);
         Pageable pageable;
