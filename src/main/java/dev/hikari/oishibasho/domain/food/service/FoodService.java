@@ -4,9 +4,11 @@ import dev.hikari.oishibasho.domain.food.dto.request.DishesUpdatedRequest;
 import dev.hikari.oishibasho.domain.food.dto.response.FoodResponse;
 import dev.hikari.oishibasho.domain.food.entity.Food;
 import dev.hikari.oishibasho.domain.food.repository.FoodRepository;
+import dev.hikari.oishibasho.domain.restaurant.repository.RestaurantRepository;
 import dev.hikari.oishibasho.infrastructure.exception.ApiException;
 import dev.hikari.oishibasho.infrastructure.exception.GlobalControllerExceptionHandler;
 import dev.hikari.oishibasho.infrastructure.utilies.MessageCode;
+import dev.hikari.oishibasho.infrastructure.utilies.Utility;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -19,7 +21,7 @@ public class FoodService {
     private static final int GAP = 2;
     private final FoodRepository foodRepository;
     private static final Logger LOGGER = LogManager.getLogger(GlobalControllerExceptionHandler.class);
-    public FoodService(FoodRepository foodRepository) {
+    public FoodService(FoodRepository foodRepository, RestaurantRepository restaurantRepository) {
         this.foodRepository = foodRepository;
     }
 
@@ -36,9 +38,7 @@ public class FoodService {
                 double longitudeFood = item.getRestaurant().getLongitude();
                 double latitudeFood = item.getRestaurant().getLatitude();
 
-                if (    (longitude - GAP > longitudeFood || longitude + GAP < longitudeFood) &&
-                        (latitude - GAP < latitudeFood || latitude + GAP < latitudeFood)
-                )continue;
+                if (Utility.haversineDistance(latitude, longitude, latitudeFood, longitudeFood) > 2)continue;
             }
             FoodResponse rspItem = FoodResponse.builder()
                     .id(item.getId())
@@ -49,6 +49,7 @@ public class FoodService {
                     .address(item.getRestaurant().getAddress())
                     .longitude(item.getRestaurant().getLongitude())
                     .latitude(item.getRestaurant().getLatitude())
+                    .description(item.getDescription())
                     .build();
             response.add(rspItem);
         }
@@ -58,7 +59,7 @@ public class FoodService {
     public MessageCode changeDishes(DishesUpdatedRequest request) {
         Food food = foodRepository.findById(request.getId()).orElse(null);
         if (food != null){
-            food.setVisitCount(food.getVisitCount() + 1);
+            food.setVisitCount(food.getVisitCount() - 1);
             try {
                 foodRepository.save(food);
                 return MessageCode.SUCCESS;
