@@ -30,7 +30,7 @@ public interface FoodRepository extends JpaRepository<Food, Integer> {
                     and (:periodId is null or :periodId = f.period_id)
                     and (:priceFrom is null or :priceFrom <= price)
                     and (:priceTo is null or price <= :priceTo)
-                    and (:address is null or address like :address)
+                    and (:address is null or address ilike :address)
                     order by level_palatability desc
             """, nativeQuery = true)
     List<Food> getFoodList(Integer periodId, Integer priceFrom, Integer priceTo, String address);

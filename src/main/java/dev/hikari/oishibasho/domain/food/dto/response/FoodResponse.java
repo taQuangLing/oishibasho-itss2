@@ -14,4 +14,5 @@ public class FoodResponse {
     private Double latitude;
     private Double longitude;
     private Integer visitCount;
+    private String description;
 }
