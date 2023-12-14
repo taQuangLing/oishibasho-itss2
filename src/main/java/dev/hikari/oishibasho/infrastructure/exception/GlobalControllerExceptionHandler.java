@@ -15,7 +15,7 @@ public class GlobalControllerExceptionHandler{
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<Response> handleConversion(Exception ex) {
+    public ResponseEntity<?> handleConversion(Exception ex) {
         LOGGER.error("ERROR: ", ex);
         Response response = new Response();
         response.setMessage(ex.getMessage());
