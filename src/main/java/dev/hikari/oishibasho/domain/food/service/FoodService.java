@@ -1,6 +1,7 @@
 package dev.hikari.oishibasho.domain.food.service;
 
 import dev.hikari.oishibasho.domain.food.dto.request.DishesUpdatedRequest;
+import dev.hikari.oishibasho.domain.food.dto.response.FoodDetailsResponse;
 import dev.hikari.oishibasho.domain.food.dto.response.FoodResponse;
 import dev.hikari.oishibasho.domain.food.entity.Food;
 import dev.hikari.oishibasho.domain.food.repository.FoodRepository;
@@ -59,7 +60,7 @@ public class FoodService {
     public MessageCode changeDishes(DishesUpdatedRequest request) {
         Food food = foodRepository.findById(request.getId()).orElse(null);
         if (food != null){
-            food.setVisitCount(food.getVisitCount() - 1);
+            food.setVisitCount(food.getVisitCount() > 0 ? food.getVisitCount() - 1 : food.getVisitCount());
             try {
                 foodRepository.save(food);
                 return MessageCode.SUCCESS;
@@ -70,5 +71,40 @@ public class FoodService {
         }else{
             throw new ApiException(MessageCode.FAIL);
         }
+    }
+
+    public MessageCode dishDetailsAction(DishesUpdatedRequest request) {
+        Food food = foodRepository.findById(request.getId()).orElse(null);
+        if (food != null){
+            food.setVisitCount(food.getVisitCount() + 1);
+            try {
+                foodRepository.save(food);
+                return MessageCode.SUCCESS;
+            }catch (Exception e){
+                LOGGER.warn(e);
+                throw new ApiException(MessageCode.ERROR);
+            }
+        }else{
+            throw new ApiException(MessageCode.FAIL);
+        }
+    }
+
+
+    public FoodDetailsResponse getDishDetails(Integer id) {
+        Food food = foodRepository.findById(id).orElse(null);
+        if (food == null){
+            throw new ApiException(MessageCode.FAIL);
+        }
+        FoodDetailsResponse response = FoodDetailsResponse.builder()
+                .id(food.getId())
+                .name(food.getName())
+                .restaurantName(food.getRestaurant().getName())
+                .address(food.getRestaurant().getAddress())
+                .description(food.getDescription())
+                .image(food.getImage())
+                .price(food.getPrice())
+                .build();
+        return response;
+
     }
 }
