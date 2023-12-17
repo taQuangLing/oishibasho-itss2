@@ -1,4 +1,4 @@
-package dev.hikari.oishibasho.infrastructure.exception;
+package dev.hikari.oishibasho.app.exception;
 
 import dev.hikari.oishibasho.infrastructure.dto.response.Response;
 import org.apache.logging.log4j.LogManager;
