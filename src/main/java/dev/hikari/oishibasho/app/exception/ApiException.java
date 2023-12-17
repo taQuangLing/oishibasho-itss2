@@ -1,4 +1,4 @@
-package dev.hikari.oishibasho.infrastructure.exception;
+package dev.hikari.oishibasho.app.exception;
 
 import dev.hikari.oishibasho.infrastructure.utilies.MessageCode;
 import lombok.AllArgsConstructor;
