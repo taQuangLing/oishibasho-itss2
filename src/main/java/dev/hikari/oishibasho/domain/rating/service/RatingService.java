@@ -1,11 +1,11 @@
 package dev.hikari.oishibasho.domain.rating.service;
 
+import dev.hikari.oishibasho.app.exception.ApiException;
 import dev.hikari.oishibasho.domain.food.entity.Food;
 import dev.hikari.oishibasho.domain.food.repository.FoodRepository;
 import dev.hikari.oishibasho.domain.rating.dto.response.RatingsResponse;
 import dev.hikari.oishibasho.domain.rating.entity.Rating;
 import dev.hikari.oishibasho.domain.rating.repository.RatingRepository;
-import dev.hikari.oishibasho.infrastructure.exception.ApiException;
 import dev.hikari.oishibasho.infrastructure.utilies.MessageCode;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +24,7 @@ public class RatingService {
 
     public List<RatingsResponse> getListRating(Integer id) {
         Food food = foodRepository.findById(id).orElse(null);
-        if (food == null)throw new ApiException(MessageCode.FAIL);
+        if (food == null)throw new ApiException(MessageCode.ID_NOT_FOUND);
 
         List<Rating> ratings = ratingRepository.findByFood(food);
         List<RatingsResponse> response = new ArrayList<>();

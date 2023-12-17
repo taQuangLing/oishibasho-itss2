@@ -9,7 +9,8 @@ public enum MessageCode {
     SUCCESS(2000, "SUCCESS", "Thành công"),
     FAIL(4001, "FAIL", "Thất bại"),
     ERROR(5000, "ERROR", "Lỗi hệ thống!"),
-
+    ID_NOT_FOUND(4003, "ID NOT FOUND", "Không tìm thấy id"),
+    EMPTY(4002, "SPECIAL RATING EMPTY", "Người dùng hệ thống chưa comment bài viết này"),
     ;
     private int code;
     private String message;
