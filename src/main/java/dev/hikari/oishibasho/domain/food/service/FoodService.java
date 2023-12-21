@@ -51,6 +51,7 @@ public class FoodService {
                     .longitude(item.getRestaurant().getLongitude())
                     .latitude(item.getRestaurant().getLatitude())
                     .description(item.getDescription())
+                    .restaurantName(item.getRestaurant().getName())
                     .build();
             response.add(rspItem);
         }
