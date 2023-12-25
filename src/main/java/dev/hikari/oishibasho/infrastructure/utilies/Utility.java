@@ -20,29 +20,21 @@ public class Utility {
 
     public static double haversineDistance(double lat1, double lon1, double lat2, double lon2) {
         // Bán kính trái đất ở đơn vị km
-        double earthRadius = 6371.0;
+        double dLat = Math.toRadians(lat2 - lat1);
+        double dLon = Math.toRadians(lon2 - lon1);
 
-        // Chuyển đổi về radian
-        double radiansLat1 = Math.toRadians(lat1);
-        double radiansLon1 = Math.toRadians(lon1);
-        double radiansLat2 = Math.toRadians(lat2);
-        double radiansLon2 = Math.toRadians(lon2);
+        // convert to radians
+        lat1 = Math.toRadians(lat1);
+        lat2 = Math.toRadians(lat2);
 
-        // Sự chênh lệch giữa các vĩ độ và kinh độ
-        double deltaLat = radiansLat2 - radiansLat1;
-        double deltaLon = radiansLon2 - radiansLon1;
-
-        // Công thức Haversine
-        double a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
-                Math.cos(radiansLat1) * Math.cos(radiansLat2) *
-                        Math.sin(deltaLon / 2) * Math.sin(deltaLon / 2);
-
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-        // Khoảng cách
-        double distance = earthRadius * c;
-
-        return distance;
+        // apply formulae
+        double a = Math.pow(Math.sin(dLat / 2), 2) +
+                Math.pow(Math.sin(dLon / 2), 2) *
+                        Math.cos(lat1) *
+                        Math.cos(lat2);
+        double rad = 6371;
+        double c = 2 * Math.asin(Math.sqrt(a));
+        return rad * c;
     }
     public static Pageable paginationAndSorting(int page, int size, String sortBy){
         if (sortBy == null)return PageRequest.of(page, size);
