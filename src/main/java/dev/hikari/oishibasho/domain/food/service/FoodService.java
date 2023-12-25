@@ -39,7 +39,7 @@ public class FoodService {
                 double longitudeFood = item.getRestaurant().getLongitude();
                 double latitudeFood = item.getRestaurant().getLatitude();
 
-                if (Utility.haversineDistance(latitude, longitude, latitudeFood, longitudeFood) > 2)continue;
+                if (Utility.haversineDistance(latitude, longitude, latitudeFood, longitudeFood) > 0.5)continue;
             }
             FoodResponse rspItem = FoodResponse.builder()
                     .id(item.getId())
